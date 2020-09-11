@@ -687,7 +687,7 @@ void HardwareInterface::extractToolPose(const ros::Time& timestamp)
   double tcp_angle = std::sqrt(std::pow(tcp_pose_[3], 2) + std::pow(tcp_pose_[4], 2) + std::pow(tcp_pose_[5], 2));
 
   tf2::Vector3 rotation_vec(tcp_pose_[3], tcp_pose_[4], tcp_pose_[5]);
-  tf2::Quaternion rotation;
+  tf2::Quaternion rotation{0.0f, 0.0f, 0.0f, 0.0f};
   if (tcp_angle > 1e-16)
   {
     rotation.setRotation(rotation_vec.normalized(), tcp_angle);
