@@ -391,7 +391,7 @@ bool HardwareInterface::init(ros::NodeHandle& root_nh, ros::NodeHandle& robot_hw
         std::stringstream cmd;
         cmd.imbue(std::locale::classic());  // Make sure, decimal divider is actually '.'
         cmd << "sec setup():" << std::endl
-            << " set_payload(" << req.payload << ", [" << req.center_of_gravity.x << ", " << req.center_of_gravity.y
+            << " set_payload(" << req.mass << ", [" << req.center_of_gravity.x << ", " << req.center_of_gravity.y
             << ", " << req.center_of_gravity.z << "])" << std::endl
             << "end";
         resp.success = this->ur_driver_->sendScript(cmd.str());
@@ -687,7 +687,7 @@ void HardwareInterface::extractToolPose(const ros::Time& timestamp)
   double tcp_angle = std::sqrt(std::pow(tcp_pose_[3], 2) + std::pow(tcp_pose_[4], 2) + std::pow(tcp_pose_[5], 2));
 
   tf2::Vector3 rotation_vec(tcp_pose_[3], tcp_pose_[4], tcp_pose_[5]);
-  tf2::Quaternion rotation;
+  tf2::Quaternion rotation{0.0f, 0.0f, 0.0f, 0.0f};
   if (tcp_angle > 1e-16)
   {
     rotation.setRotation(rotation_vec.normalized(), tcp_angle);
